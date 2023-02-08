@@ -30,10 +30,21 @@ public class Controller  {
 		// create local display and sensor stub objects
 		// connect to sensor and display RPC servers
 		// read value from sensor using RPC and write to display using RPC
-			
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		display = new DisplayStub(displayclient);
+		sensor = new SensorStub(sensorclient);
 		
+		displayclient.connect();
+		sensorclient.connect();
+		
+		for(int i =0; i<N; i++) {
+		
+		
+		display.write(Integer.toString(sensor.read()));
+		try {
+			Thread.sleep(2000);
+		}catch(InterruptedException e){
+		}
+		}
 		// TODO - END
 		
 		stopdisplay.stop();

@@ -38,6 +38,7 @@ public class RPCServer {
 		
 		while (!stop) {
 	    
+			byte[] tab;
 		   byte rpcid = 0;
 		   Message requestmsg, replymsg;
 		   
@@ -48,9 +49,20 @@ public class RPCServer {
 		   // - invoke the method
 		   // - send back the message containing RPC reply
 			
-		   if (true)
-				throw new UnsupportedOperationException(TODO.method());
+		   requestmsg = connection.receive();
 		   
+		   rpcid = requestmsg.getData()[0];
+		   
+		   tab = requestmsg.getData();
+		   
+		   tab = RPCUtils.decapsulate(tab);
+		   
+		   RPCRemoteImpl R = services.get(rpcid);
+		   
+		   replymsg = new Message(R.invoke(tab));
+		   
+		   connection.send(replymsg);
+		  
 		   // TODO - END
 
 			// stop the server if it was stop methods that was called
